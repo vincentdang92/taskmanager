@@ -16,12 +16,13 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $projects = QueryBuilder::for(Project::class)
+            ->allowedIncludes('tasks')
                     ->paginate();
         return new ProjectCollection($projects);
     }
     public function show(Request $request, Project $project){
 
-        return new ProjectResource($project);
+        return (new ProjectResource($project))->load('task');
     }
     public function store(StoreProjectRequest $request){
         $validated = $request->validated();
@@ -33,8 +34,8 @@ class ProjectController extends Controller
         $project->update($validated);
         return new ProjectResource($project);
     }
-    public function destroy(){
-
+    public function destroy(Request $request, Project $project){
+        $project->delete();
     }
 
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TokenAbility;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -18,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::get('refresh', [AuthController::class, 'refresh'])->middleware('auth:sanctum');
+Route::post('refresh-token', [AuthController::class, 'refreshToken']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
